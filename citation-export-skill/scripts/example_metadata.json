@@ -1,0 +1,54 @@
+[
+  {
+    "title": "A compact solution for vibrotactile proprioceptive feedback of wrist rotation and hand aperture",
+    "authors": [
+      "Marinelli, Andrea",
+      "Boccardo, Nicolò",
+      "Canepa, Michele",
+      "Di Domenico, Dario",
+      "Gruppioni, Emanuele",
+      "Laffranchi, Matteo",
+      "De Michieli, Lorenzo",
+      "Chiappalone, Michela",
+      "Semprini, Marianna",
+      "Dosen, Strahinja"
+    ],
+    "journal": "Journal of NeuroEngineering and Rehabilitation",
+    "year": "2024",
+    "volume": "21",
+    "issue": "1",
+    "pages": "142",
+    "issn": "1743-0003",
+    "publisher": "Springer Nature",
+    "abstract": "Closing the control loop between users and their prostheses by providing artificial sensory feedback is a fundamental step toward the full restoration of lost sensory-motor functions.",
+    "keywords": "Closed-loop control; Gaussian interpolation; Hannes hand; Multichannel stimulation; Proprioceptive feedback; Spatial encoding; Vibromotors",
+    "pmid": "39135110",
+    "pmcid": "PMC11320866",
+    "doi": "10.1186/s12984-024-01420-y",
+    "language": "English"
+  },
+  {
+    "title": "Sensory stimulation for upper limb amputations modulates adaptability of cortical large-scale systems and combination of somatosensory and visual inputs",
+    "authors": [
+      "Ding, Keqin",
+      "Chen, Yunru",
+      "Bose, Rohit",
+      "Osborn, Luke E",
+      "Dragomir, Andrei",
+      "Thakor, Nitish V"
+    ],
+    "journal": "Scientific Reports",
+    "year": "2022",
+    "volume": "12",
+    "issue": "1",
+    "pages": "20467",
+    "issn": "2045-2322",
+    "publisher": "Nature Publishing Group",
+    "abstract": "Touch-like phantom limb sensations can be elicited through targeted transcutaneous electrical nerve stimulation (tTENS) in individuals with upper limb amputation.",
+    "keywords": "sensory stimulation; upper limb amputation; cortical large-scale systems; EEG; tTENS",
+    "pmid": "36443387",
+    "pmcid": "PMC9705529",
+    "doi": "10.1038/s41598-022-24368-2",
+    "language": "English"
+  }
+]
