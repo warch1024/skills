@@ -37,7 +37,7 @@ Each row contains number, canonical ID, last activity time, time source, title, 
 codex-session-retention plan --days 7 --select 8,9-11 [--root PATH] [--allow-fresh]
 ```
 
-Re-scan the root, validate the selected numbers, and write a mode-0600 temporary manifest. The manifest contains IDs, selected paths, structured row targets, file sizes, mtimes, and hashes; it contains no conversation body text. By default only stale numbers are selectable. `--allow-fresh` is required for recent sessions and produces an explicit warning. Planning never mutates Codex data.
+Re-scan the root, validate the selected numbers, and write a mode-0600 temporary manifest. The manifest contains IDs, selected rollout/snapshot paths, structured row targets, selected-artifact sizes, mtimes, and hashes; it contains no conversation body text. Global index/SQLite files are intentionally not frozen at plan time because closing Codex can checkpoint WAL files. By default only stale numbers are selectable. `--allow-fresh` is required for recent sessions and produces an explicit warning. Planning never mutates Codex data.
 
 ### `delete`
 
@@ -91,7 +91,7 @@ Do not delete `auth.json`, `config.toml`, `installation_id`, `version.json`, Ski
 
 ## Transaction, backup, and verification
 
-Use a mode-0700 temporary transaction directory outside `.codex`. Stage JSONL edits and clean SQLite copies there. Copy affected SQLite databases using SQLite's backup API so live WAL/SHM state is captured consistently; apply SQL deletes to the staged copies and close them before replacement.
+Use a mode-0700 temporary transaction directory outside `.codex`. At delete time, after Codex has exited, fingerprint the current global index/SQLite/WAL files and stage JSONL edits and clean SQLite copies there. Copy affected SQLite databases using SQLite's backup API so live WAL/SHM state is captured consistently; apply SQL deletes to the staged copies and close them before replacement. Re-check these fresh global fingerprints immediately before live replacement; a change after staging aborts without mutation. This two-phase check permits normal Codex shutdown between plan and delete while still preventing concurrent writes during deletion.
 
 Before replacement, verify staged data has no selected IDs in structured index/history rows, thread rows, goal/memory/log rows, spawn-edge endpoints, or session-owned paths. Maintain a journal containing original paths, backup paths, staged paths, and fingerprints. Replace live files with `os.replace` only after all staged validations pass. If any replacement fails, restore all originals from the journal. On process interruption, require `recover` before another delete. Remove the temporary manifest, journal, and backups only after post-replacement verification succeeds.
 
@@ -108,6 +108,6 @@ If an expected database is present but locked, unreadable, schema-incompatible, 
 
 ## Testing and live verification
 
-Build a synthetic Codex home covering active/archive sessions, database-only rows, old filename with recent database activity, exact cutoff, missing rollout, duplicate/shared paths, symlink escape, non-rollout database paths, malformed JSONL, shell snapshot ambiguity, all dependent SQLite tables, WAL/SHM files, manifest drift, database locks, staged failure, replacement failure, and recovery.
+Build a synthetic Codex home covering active/archive sessions, database-only rows, old filename with recent database activity, exact cutoff, missing rollout, duplicate/shared paths, symlink escape, non-rollout database paths, malformed JSONL, shell snapshot ambiguity, all dependent SQLite tables, WAL/SHM files, manifest drift, post-plan global-file changes, database locks, staged failure, replacement failure, and recovery.
 
 Run the complete unit/integration suite and the Skill validator. Against the real Codex home, run only `list` and `plan` in read-only mode, compare representative rows with the local SQLite/index files, and never perform a real delete during development. A real delete is a separate user-initiated terminal operation after all Codex processes are closed.

@@ -1,3 +1,4 @@
 interface:
   display_name: "Codex Session Retention"
-  short_description: "Help with Codex Session Retention tasks"
+  short_description: "Safely plan and remove complete local Codex sessions"
+  default_prompt: "List local Codex sessions by last activity and prepare a safe terminal-only deletion plan."

@@ -316,7 +316,7 @@ def validate_manifest(manifest: Manifest) -> None:
             raise ManifestDriftError(str(expected.path))
 ```
 
-Implement the referenced `collect_manifest_paths`, `now_ms`, `default_manifest_path`, `to_dict`, and `from_dict` helpers in the same task with deterministic JSON field names. Hash only files needed for structured deletion or association. Store IDs/path metadata but no conversation text. Resolve every path and require it to be one of the known root/index/database/sidecar/rollout/snapshot targets. Reject selected records with ambiguity, shared ownership, or recent activity unless overridden.
+Implement the referenced `collect_manifest_paths`, `now_ms`, `default_manifest_path`, `to_dict`, and `from_dict` helpers in the same task with deterministic JSON field names. Hash only selected rollout/snapshot files in the plan manifest; do not hash mutable global indexes or databases before Codex shuts down. Store IDs/path metadata but no conversation text. Resolve every selected path and require it to be one of the known rollout/snapshot targets. Reject selected records with ambiguity, shared ownership, or recent activity unless overridden.
 
 - [ ] **Step 4: Verify GREEN**
 
